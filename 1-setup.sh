@@ -25,21 +25,21 @@ echo "-------------------------------------------------"
 echo "Changing the makeflags for "$nc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTALMEM -gt 8000000 ]]; then
-sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$nc"/g' /etc/makepkg.conf
+sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
 echo "Changing the compression settings for "$nc" cores."
-sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g' /etc/makepkg.conf
+sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
 fi
 echo "-------------------------------------------------"
 echo "       Setup Language to US and set locale       "
 echo "-------------------------------------------------"
-sed -i 's/^#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen #CHANGEMENT
+sed -i 's/^#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
-timedatectl --no-ask-password set-timezone Europe/Paris #CHANGEMENT
+timedatectl --no-ask-password set-timezone Europe/Paris
 timedatectl --no-ask-password set-ntp 1
-localectl --no-ask-password set-locale LANG="fr_FR.UTF-8" LC_TIME="fr_FR.UTF-8" #CHANGEMENT
+localectl --no-ask-password set-locale LANG="fr_FR.UTF-8" LC_TIME="fr_FR.UTF-8"
 
 # Set keymaps
-localectl --no-ask-password set-keymap fr-pc #CHANGEMENT
+localectl --no-ask-password set-keymap fr
 
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -54,6 +54,25 @@ pacman -Sy --noconfirm
 echo -e "\nInstalling Base System\n"
 
 PKGS=(
+
+'libreoffice'
+'libreoffice-fresh-fr'
+'veracrypt'
+'firefox'
+'darktable'
+'cairo-dock'
+'musescore'
+'qjackctl'
+'shotcut'
+'gnome-disk-utility'
+'plasma-systemmonitor'
+'krename'
+'ktorrent'
+'keepassxc'
+'vlc'
+'gufw'
+'thunderbird'
+'handbrake'
 'mesa' # Essential Xorg First
 'xorg'
 'xorg-server'
@@ -77,11 +96,12 @@ PKGS=(
 'bluedevil'
 'bluez'
 'bluez-libs'
+'bluez-utils'
 'breeze'
 'breeze-gtk'
 'bridge-utils'
 'btrfs-progs'
-'celluloid' # video players
+#'celluloid' # video players
 'cmatrix'
 'code' # Visual Studio code
 'cronie'
@@ -90,9 +110,12 @@ PKGS=(
 'discover'
 'dolphin'
 'dosfstools'
+'dtc'
 'efibootmgr' # EFI boot
 'egl-wayland'
 'exfat-utils'
+'extra-cmake-modules'
+'filelight'
 'flex'
 'fuse2'
 'fuse3'
@@ -108,23 +131,31 @@ PKGS=(
 'gst-libav'
 'gst-plugins-good'
 'gst-plugins-ugly'
+'gwenview'
 'haveged'
 'htop'
 'iptables-nft'
 'jdk-openjdk' # Java 17
-#'kate'
-'kvantum-qt5'
+'kate'
+'kcodecs'
+'kcoreaddons'
+'kdeplasma-addons'
 'kde-gtk-config'
-#'kitty'
+'kinfocenter'
+'kscreen'
+'kvantum-qt5'
+'kitty'
 'konsole'
+'kscreen'
 'layer-shell-qt'
+'libdvdcss'
 'libnewt'
 'libtool'
 'linux'
 'linux-firmware'
 'linux-headers'
 'lsof'
-#'lutris'
+'lutris'
 'lzop'
 'm4'
 'make'
@@ -144,11 +175,16 @@ PKGS=(
 'patch'
 'picom'
 'pkgconf'
+'plasma-nm'
+'powerdevil'
 'powerline-fonts'
 'print-manager'
 'pulseaudio'
 'pulseaudio-alsa'
 'pulseaudio-bluetooth'
+'python-notify2'
+'python-psutil'
+'python-pyqt5'
 'python-pip'
 'qemu'
 'rsync'
