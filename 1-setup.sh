@@ -78,6 +78,7 @@ PKGS=(
 'pipewire'
 'pipewire-alsa'
 'pipewire-pulse'
+'pipewire-jack'
 'mesa' # Essential Xorg First
 'xorg'
 'xorg-server'
@@ -195,7 +196,7 @@ PKGS=(
 'rsync'
 'sddm'
 'sddm-kcm'
-'snapper'
+#'snapper'
 'spectacle'
 'steam'
 'sudo'
